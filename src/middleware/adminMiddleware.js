@@ -1,12 +1,22 @@
-import { AuthFailureError } from "../handler/error.reponse";
-import { CheckAuth } from "./checkAuth.js";
+import { AuthFailureError } from "../handler/error.reponse.js";
+
 class AdminMiddleware {
     async checkAdmin(req, res, next) {
-        await CheckAuth.checkAuth(req, res, next);
-        if(req.user?.role !== 'admin') {
-            throw new AuthFailureError("You are not authorized to perform this action");
+        try {
+            // Kiểm tra xem req.user có tồn tại không
+            if (!req.user) {
+                throw new AuthFailureError("Unauthorized");
+            }
+            
+            // Kiểm tra role admin
+            if (req.user.role !== 'admin') {
+                throw new AuthFailureError("You are not authorized to perform this action");
+            }
+            
+            next();
+        } catch (error) {
+            next(error);
         }
-        next();
     }
 }
 

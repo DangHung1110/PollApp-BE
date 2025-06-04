@@ -11,7 +11,7 @@ const pollSchema = new mongoose.Schema({
   options: [pollOptionSchema.schema],
   creator: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'user',
     required: true
   },
   isLocked: {

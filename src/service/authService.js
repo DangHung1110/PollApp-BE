@@ -31,7 +31,8 @@ class AuthService {
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) throw new BadRequestError("Invalid email or password!");
 
-        const payload = { id: user._id, email: user.email };
+        const payload = { id: user._id, email: user.email, role: user.role };
+        console.log(payload);
         const accessToken = jwt.sign(payload, SECRET_KEY, { expiresIn: '15m' });
         const refreshToken = jwt.sign(payload, SECRET_KEY, { expiresIn: '7d' });
 
@@ -51,7 +52,7 @@ class AuthService {
                     if (err) {
                         return reject(new AuthFailureError('Invalid refresh token'));
                     }
-                    const payload = { id: user.id, email: user.email };
+                    const payload = { id: user.id, email: user.email, role: user.role };
                     const newAccessToken = jwt.sign(payload, SECRET_KEY, { expiresIn: '15m' });
 
                     resolve({ accessToken: newAccessToken });

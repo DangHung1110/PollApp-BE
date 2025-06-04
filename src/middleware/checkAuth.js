@@ -13,8 +13,9 @@ class AuthMiddleware {
     const token = authHeader.split(' ')[1];
 
     try {
-        const decode = jwt.verify(token, TOKEN_SECRET);
-        req.user = decode;
+        const decoded = jwt.verify(token, TOKEN_SECRET);
+        // Lưu toàn bộ thông tin user vào req.user
+        req.user = decoded;
         next();
     }
     catch (error) {
