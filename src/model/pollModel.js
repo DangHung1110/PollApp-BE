@@ -1,22 +1,15 @@
 import mongoose from 'mongoose';
-const optionSchema = new mongoose.Schema({
-  text: {
-    type: String,
-    required: true
-  },
-  voteCount: {
-    type: Number,
-    default: 0
-  }
-});
-
+import pollOptionSchema from './pollOptionModel.js';
 const pollSchema = new mongoose.Schema({
-  question: {
+  title: {
     type: String,
     required: true
   },
-  options: [optionSchema],
-  createdBy: {
+  description: {
+    type: String,
+  },
+  options: [pollOptionSchema.schema],
+  creator: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
@@ -24,6 +17,14 @@ const pollSchema = new mongoose.Schema({
   isLocked: {
     type: Boolean,
     default: false
+  },
+  expiresAt: {
+    type: Date,
+    default: () => {
+      const now = new Date();
+      now.setDate(now.getDate() + 7); // Mặc định là 7 ngày kể từ ngày tạo
+      return now;
+    }
   }
 }, { timestamps: true });
 

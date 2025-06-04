@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import User from '../model/UserModel.js';
+import User from '../model/userModel.js';
 import crypto from 'crypto';
 import dotenv from 'dotenv';
 import { ConflictRequestError, BadRequestError, AuthFailureError, NotFoundError } from "../handler/error.reponse.js"

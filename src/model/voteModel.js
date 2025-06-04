@@ -1,7 +1,6 @@
-const mongoose = require('mongoose');
-
+import mongoose from 'mongoose';
 const voteSchema = new mongoose.Schema({
-  user: {
+  userID: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
@@ -19,4 +18,5 @@ const voteSchema = new mongoose.Schema({
 
 voteSchema.index({ user: 1, poll: 1 }, { unique: true }); // 1 user chỉ được vote 1 lần / poll
 
-module.exports = mongoose.model('Vote', voteSchema);
+const Vote = mongoose.model('Vote', voteSchema);
+export default Vote;

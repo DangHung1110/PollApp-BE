@@ -1,4 +1,4 @@
-import User from "../model/UserModel.js";
+import User from "../model/userModel.js";
 
 class UserValidator {
   checkUserValidate = async (req, res, next) => {
