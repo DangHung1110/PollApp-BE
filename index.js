@@ -6,6 +6,7 @@ import AuthRouter from "./src/router/authRouter.js";
 import cookieParser from "cookie-parser";
 import { errorHandler } from "./src/handler/error.Handle.js";
 import PollRouter from "./src/router/pollRouter.js";
+import VoteRouter from "./src/router/voteRouter.js";
 
 dotenv.config();
 
@@ -25,9 +26,11 @@ instanceMongoDB.connect();
 // Khởi tạo router
 const authRouter = new AuthRouter();
 const pollRouter = new PollRouter();
+const voteRouter = new VoteRouter();
 // Thiết lập routes
 app.use('/api/v1', authRouter.router);
 app.use('/api/v1', pollRouter.router);
+app.use('/api/v1', voteRouter.router);
 app.use('*', (req, res) => {
     res.status(404).json({error: 'resource not found'})
 })
