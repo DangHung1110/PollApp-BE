@@ -11,6 +11,8 @@ class PollController {
         this.deletePoll = this.deletePoll.bind(this);
         this.getAllPolls = this.getAllPolls.bind(this);
         this.getPollById = this.getPollById.bind(this);
+        this.addOptionPoll = this.addOptionPoll.bind(this);
+        this.removeOptionPoll = this.removeOptionPoll.bind(this);
     }
 
     async createPoll(req, res, next) {
@@ -124,15 +126,17 @@ class PollController {
 
     async removeOptionPoll(req, res, next) {
         try {
-            const pollId = req.params.pollId;
-            const { optionId } = req.body;
+            const { pollId, optionId } = req.params;
+            
+            // Debug 
+            console.log('Received pollId:', pollId);
+            console.log('Received optionId:', optionId);
 
-            const updatedPoll = await this.pollService.removeOptionPoll(pollId, optionId);
+            const result = await this.pollService.removeOptionPoll(pollId, optionId);
+            
             new OK({
-                message: 'Option removed successfully',
-                metadata: {
-                    poll: updatedPoll
-                }
+                message: "Option removed successfully",
+                metadata: { poll: result.poll }
             }).send(res);
         } catch (error) {
             next(error);

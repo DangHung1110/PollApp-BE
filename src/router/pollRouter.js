@@ -18,9 +18,9 @@ class PollRouter {
         this.router.put('/polls/:pollId', asynHandle(this.adminMiddleware.checkAdmin), asynHandle(this.pollController.updatePoll));// update an existing poll
         this.router.get('/polls/:pollId', asynHandle(this.authMiddleware.checkAuth), asynHandle(this.pollController.getPollById));// get a poll by ID
         this.router.get('/polls', asynHandle(this.authMiddleware.checkAuth), asynHandle(this.pollController.getAllPolls));// get all polls
-        this.router.delete('/polls/:pollId', asynHandle(this.authMiddleware.checkAuth), asynHandle(this.adminMiddleware.checkAdmin), asynHandle(this.pollController.deletePoll));// delete a poll
-        this.router.post('/polls/:pollId/addOptions', asynHandle(this.authMiddleware.checkAuth), asynHandle(this.adminMiddleware.checkAdmin), asynHandle(this.pollController.addOptionPoll));// add an option to a poll
-        this.router.put('/polls/:pollId/removeOptions/:optionId', asynHandle(this.authMiddleware.checkAuth), asynHandle(this.adminMiddleware.checkAdmin), asynHandle(this.pollController.updateOptionPoll));// update an option in a poll
+        this.router.delete('/polls/:pollId/deletePoll', asynHandle(this.authMiddleware.checkAuth), asynHandle(this.adminMiddleware.checkAdmin), asynHandle(this.pollController.deletePoll));// delete a poll
+        this.router.patch('/polls/:pollId/addOptions', asynHandle(this.authMiddleware.checkAuth), asynHandle(this.adminMiddleware.checkAdmin), asynHandle(this.pollController.addOptionPoll));// add an option to a poll
+        this.router.delete('/polls/:pollId/removeOptions/:optionId', asynHandle(this.authMiddleware.checkAuth), asynHandle(this.adminMiddleware.checkAdmin), asynHandle(this.pollController.removeOptionPoll));// update an option in a poll
     }
 }
 

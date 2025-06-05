@@ -131,21 +131,37 @@ class PollService {
         }
     }
 
-    async removeOptionPoll ( pollId, optionId ) {
+    async removeOptionPoll(pollId, optionId) {
         try {
             const poll = await Poll.findById(pollId);
             if (!poll) {
                 throw new NotFoundError("Poll not found");
             }
 
-            const optionIndex = poll.options.findIndex(option => option._id.toString() === optionId);
+            // Debug log to check the values
+            console.log('OptionId to remove:', optionId);
+            console.log('Available options:', poll.options.map(opt => ({
+                id: opt._id.toString(),
+                text: opt.text
+            })));
+
+            // Fixed comparison using toString() on both sides
+            const optionIndex = poll.options.findIndex(
+                option => option._id.toString() === optionId.toString()
+            );
+
             if (optionIndex === -1) {
                 throw new NotFoundError("Option not found in this poll");
             }
 
+            // Remove the option
             poll.options.splice(optionIndex, 1);
             await poll.save();
-            return poll;
+            
+            return {
+                message: "Option removed successfully",
+                poll
+            };
         } catch (error) {
             throw error;
         }
