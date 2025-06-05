@@ -19,7 +19,6 @@ app.use(express.json())
 app.use(methodOverride('_method'))
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }))
-app.use(errorHandler)
 
 // Kết nối database
 instanceMongoDB.connect();
@@ -38,6 +37,7 @@ app.use('*', (req, res) => {
     res.status(404).json({error: 'resource not found'})
 })
 
+app.use(errorHandler)
 // Start server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

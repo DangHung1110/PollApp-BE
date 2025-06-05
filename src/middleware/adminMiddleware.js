@@ -3,7 +3,6 @@ import { AuthFailureError } from "../handler/error.reponse.js";
 class AdminMiddleware {
     async checkAdmin(req, res, next) {
         try {
-            // Kiểm tra xem req.user có tồn tại không
             if (!req.user) {
                 throw new AuthFailureError("Unauthorized");
             }
