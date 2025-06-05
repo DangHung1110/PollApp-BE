@@ -3,8 +3,8 @@ import User from '../model/userModel.js';
 import crypto from 'crypto';
 import dotenv from 'dotenv';
 import { ConflictRequestError, BadRequestError, AuthFailureError, NotFoundError } from "../handler/error.reponse.js"
-import mailService from '../utils/mailer.js';
 import bcrypt from 'bcrypt';
+import MailService from '../utils/mailer.js';
 
 dotenv.config();
 
@@ -102,13 +102,19 @@ class AuthService {
 
         // Gửi email
         const resetUrl = `http://localhost:3000/reset-password?token=${resetToken}&email=${email}`;
-        await mailService.sendMail({
-            to: email,
-            subject: "Password Reset",
-            html: `<p>Click vào link sau để đặt lại mật khẩu: <a href="${resetUrl}">${resetUrl}</a></p>`
+        const mailService = new MailService();
+        await mailService.sendEmail({
+            emailFrom: `"Support" <${process.env.SMTP_USER}>`,
+            emailTo: email,
+            emailSubject: "Password Reset",
+            emailHTML: `<p>Click vào link sau để đặt lại mật khẩu: <a href="${resetUrl}">${resetUrl}</a></p>`
         });
-
-        return { message: "Password reset email sent" };
+        
+        console.log(email)
+        return { 
+            message: "Password reset email sent" ,
+            token: resetToken,
+        };
     }
 
     async resetPassword(email, token, newPassword) {
@@ -118,6 +124,7 @@ class AuthService {
             passwordResetExpires: { $gt: Date.now() }
         });
 
+        console.log("token nhan dc: ", token);
         if (!user) {
             throw new BadRequestError('Invalid or expired password reset token');
         }

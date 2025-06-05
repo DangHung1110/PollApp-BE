@@ -2,11 +2,12 @@ import express from "express"
 import dotenv from "dotenv"
 import methodOverride from "method-override"
 import instanceMongoDB from "./src/config/dbConfig.js";
-import AuthRouter from "./src/router/authRouter.js";
 import cookieParser from "cookie-parser";
 import { errorHandler } from "./src/handler/error.Handle.js";
+import AuthRouter from "./src/router/authRouter.js";
 import PollRouter from "./src/router/pollRouter.js";
 import VoteRouter from "./src/router/voteRouter.js";
+import UserRouter from "./src/router/userRouter.js";
 
 dotenv.config();
 
@@ -27,10 +28,12 @@ instanceMongoDB.connect();
 const authRouter = new AuthRouter();
 const pollRouter = new PollRouter();
 const voteRouter = new VoteRouter();
+const userRouter = new UserRouter();
 // Thiết lập routes
 app.use('/api/v1', authRouter.router);
 app.use('/api/v1', pollRouter.router);
 app.use('/api/v1', voteRouter.router);
+app.use('/api/v1', userRouter.router);
 app.use('*', (req, res) => {
     res.status(404).json({error: 'resource not found'})
 })

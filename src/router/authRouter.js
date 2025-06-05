@@ -18,8 +18,8 @@ class AuthRouter {
     this.router.post("/auth/register", this.authValidator.checkUserValidate, asyncHanle(this.authController.register));// register
     this.router.post("/auth/login", asyncHanle(this.authController.login));// login
     this.router.post("/auth/refresh-token", asyncHanle(this.authController.refreshToken)); // refresh token
-    this.router.post("/auth/logout", asyncHanle(this.authController.logout));// logout
-    this.router.get("/auth/me", this.authMiddleware.checkAuth, asyncHanle(this.authController.getMe)); // get user info
+    this.router.post("/auth/logout", asyncHanle(this.authMiddleware.checkAuth) ,asyncHanle(this.authController.logout));// logout
+    this.router.get("/auth/me", asyncHanle(this.authMiddleware.checkAuth), asyncHanle(this.authController.getMe)); // get user info
     this.router.post("/auth/forgot-password", asyncHanle(this.authController.forgotPassword)); // forgot password
     this.router.post("/auth/reset-password", asyncHanle(this.authController.resetPassword)); // reset password
   }

@@ -22,5 +22,4 @@ class MailService {
   }
 }
 
-const mailService = new MailService();
-export default mailService;
+export default MailService
