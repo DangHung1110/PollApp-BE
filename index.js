@@ -3,7 +3,7 @@ import dotenv from "dotenv"
 import methodOverride from "method-override"
 import instanceMongoDB from "./src/config/dbConfig.js";
 import cookieParser from "cookie-parser";
-import { errorHandler } from "./src/handler/error.Handle.js";
+import { errorHandler } from "./src/handler/error.handle.js";
 import AuthRouter from "./src/router/authRouter.js";
 import PollRouter from "./src/router/pollRouter.js";
 import VoteRouter from "./src/router/voteRouter.js";

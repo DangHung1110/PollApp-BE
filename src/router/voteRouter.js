@@ -14,7 +14,7 @@ class VoteRouter {
     }
 
     initializeRoutes() {
-        this.router.post('/polls/:pollId/vote', asynHandle(this.authMiddleware.checkAuth), asynHandle(this.userMiddleware.checkUser), asynHandle(this.VoteController.createVote));// vote for a poll
+        this.router.post('/polls/vote', asynHandle(this.authMiddleware.checkAuth), asynHandle(this.userMiddleware.checkUser), asynHandle(this.VoteController.createVote));// vote for a poll
         this.router.delete('/polls/:pollId/unVote', asynHandle(this.authMiddleware.checkAuth), asynHandle(this.userMiddleware.checkUser), asynHandle(this.VoteController.unVote));// unvote for a poll}
     }
 }

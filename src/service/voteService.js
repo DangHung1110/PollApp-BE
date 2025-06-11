@@ -36,9 +36,13 @@ class VoteService {
             );
 
             // Check if user has already voted
-            const existingVote = await Vote.findOne({ poll: pollId, user: userId });
+            const existingVote = await Vote.findOne({ 
+                poll: pollId, 
+                user: userId,
+                option: optionId 
+            });
             if (existingVote) {
-                throw new ConflictRequestError("User has already voted in this poll");
+                throw new ConflictRequestError("You have already voted for this option");
             }
 
             // Create new vote with optionIndex
@@ -70,6 +74,8 @@ class VoteService {
 
             const poll = await Poll.findById(pollId);
             if (!poll) {
+
+                
                 throw new NotFoundError("Poll not found");
             }
 

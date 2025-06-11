@@ -12,12 +12,12 @@ class MailService {
     });
   }
 
-  async sendEmail({ emailFrom, emailTo, emailSubject, emailHTML }) {
+  async sendEmail({ emailFrom, emailTo, emailSubject, emailText }) {
     await this.transporter.sendMail({
       from: emailFrom,
       to: emailTo,
       subject: emailSubject,
-      html: emailHTML,    
+      text: emailText    
     });
   }
 }

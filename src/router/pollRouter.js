@@ -12,7 +12,6 @@ class PollRouter {
         this.adminMiddleware = new AdminMiddleware();
         this.initializeRoutes();
     }
-
     initializeRoutes() {
         this.router.post('/polls/create', asynHandle(this.authMiddleware.checkAuth), asynHandle(this.adminMiddleware.checkAdmin), asynHandle(this.pollController.createPoll));// create a new poll
         this.router.put('/polls/:pollId', asynHandle(this.adminMiddleware.checkAdmin), asynHandle(this.pollController.updatePoll));// update an existing poll

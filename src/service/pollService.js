@@ -92,12 +92,12 @@ class PollService {
 
     async getAllPolls(query) {
         const page = parseInt(query.page) || 1;
-        const limit = parseInt(query.limit) || 10;
+        const limit = parseInt(query.limit) || 2;
         const skip = (page - 1) * limit;
 
         const total = await Poll.countDocuments({ isLocked: false });
         const polls = await Poll.find({ isLocked: false })
-            .skip(skip)
+            .skip(skip)  
             .limit(limit)
             .populate('creator', 'name email')
             .sort({ createdAt: -1 });

@@ -101,19 +101,18 @@ class AuthService {
         await user.save();
 
         // Gửi email
-        const resetUrl = `http://localhost:3000/reset-password?token=${resetToken}&email=${email}`;
         const mailService = new MailService();
         await mailService.sendEmail({
             emailFrom: `"Support" <${process.env.SMTP_USER}>`,
             emailTo: email,
             emailSubject: "Password Reset",
-            emailHTML: `<p>Click vào link sau để đặt lại mật khẩu: <a href="${resetUrl}">${resetUrl}</a></p>`
+            emailText: resetToken
         });
         
+        console.log("resetToken: ", resetToken);
         console.log(email)
         return { 
             message: "Password reset email sent" ,
-            token: resetToken,
         };
     }
 
