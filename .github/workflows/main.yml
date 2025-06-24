@@ -1,0 +1,39 @@
+name: CI/CD Deploy to EC2 via Docker Hub
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/poll-app:latest \
+                       -t ${{ secrets.DOCKER_USERNAME }}/poll-app:${{ github.sha }} .
+
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+
+      - name: Push image to Docker Hub
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/poll-app:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/poll-app:${{ github.sha }}
+
+      - name: SSH into EC2 and deploy
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            docker stop poll-app || true
+            docker rm poll-app || true
+            echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+            docker pull ${{ secrets.DOCKER_USERNAME }}/poll-app:latest
+            docker run -d -p 3000:3000 --name poll-app ${{ secrets.DOCKER_USERNAME }}/poll-app:latest
