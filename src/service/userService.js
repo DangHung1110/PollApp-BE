@@ -11,7 +11,7 @@ class UserService {
 
     async getAllUsers() {
         try {
-            const users = await this.userModel.find({}).select('-password');
+            const users = await this.userModel.find({});
             return users;
         } catch (error) {
             throw new Error('Error fetching users: ' + error.message);
