@@ -33,13 +33,13 @@ app.use('/api/v1', authRouter.router);
 app.use('/api/v1', pollRouter.router);
 app.use('/api/v1', voteRouter.router);
 app.use('/api/v1', userRouter.router);
+app.get('/', (req, res) => {
+    res.status(200).json({message: 'Test CI/CD'})
+})
 app.use('*', (req, res) => {
     res.status(404).json({error: 'resource not found'})
 })
 
-app.get('/', (req, res) => {
-    res.status(200).json({message: 'Test CI/CD'})
-})
 
 app.use(errorHandler)
 // Start server
