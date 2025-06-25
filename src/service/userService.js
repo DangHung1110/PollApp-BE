@@ -10,12 +10,8 @@ class UserService {
     }
 
     async getAllUsers() {
-        try {
-            const users = await this.userModel.find({});
-            return users;
-        } catch (error) {
-            throw new Error('Error fetching users: ' + error.message);
-        }
+        const users = await this.userModel.find({});
+        return users; 
     }
 
     async getUserById(id) {
