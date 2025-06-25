@@ -36,4 +36,9 @@ jobs:
             docker rm poll-app || true
             echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
             docker pull ${{ secrets.DOCKER_USERNAME }}/poll-app:latest
-            docker run -d -p 3000:3000 --name poll-app ${{ secrets.DOCKER_USERNAME }}/poll-app:latest
+            docker run -d -p 3000:3000 --name poll-app \
+            -e MONGO_URI=${{ secrets.MONGO_URI }} \
+            -e JWT_SECRET=${{ secrets.JWT_SECRET }} \ 
+            -e PORT=${{ secrets.PORT }} \
+            ${{ secrets.DOCKER_USERNAME }}/poll-app:latest
+
